@@ -1,3 +1,16 @@
+<div class="announcement-bar" role="region" aria-label="Announcement">
+  <div class="announcement-bar__track">
+    {%- for i in (1..6) -%}
+      <span class="announcement-bar__item">Free worldwide shipping on orders over £75</span>
+      <span class="announcement-bar__sep">&middot;</span>
+      <span class="announcement-bar__item">250gsm archival matte print</span>
+      <span class="announcement-bar__sep">&middot;</span>
+      <span class="announcement-bar__item">Limited Edition &middot; World Cup 2026</span>
+      <span class="announcement-bar__sep">&middot;</span>
+    {%- endfor -%}
+  </div>
+</div>
+
 <header class="site-header" role="banner">
   <a href="/" class="site-header__logo">
     {{ shop.name }}

@@ -162,15 +162,16 @@ document.addEventListener('click', async (e) => {
    PRODUCT IMAGE GALLERY
    ============================================ */
 const thumbs = document.querySelectorAll('.gallery-thumb');
-const mainImage = document.querySelector('.product-page__gallery-main');
+const mainImage = document.getElementById('gallery-main-img');
 
 thumbs.forEach(thumb => {
   thumb.addEventListener('click', () => {
     thumbs.forEach(t => t.classList.remove('active'));
     thumb.classList.add('active');
-    if (mainImage) {
-      // Strip size suffix from Shopify CDN URL e.g. _80x80 or _160x160
-      mainImage.src = thumb.src.replace(/_\d+x\d+(\.[a-z]+)(\?|$)/, '$1$2');
+    if (mainImage && thumb.dataset.full) {
+      mainImage.style.opacity = '0';
+      mainImage.src = thumb.dataset.full;
+      mainImage.onload = () => { mainImage.style.opacity = '1'; };
     }
   });
 });
@@ -200,18 +201,24 @@ if (window.productVariants && variantBtns.length > 0) {
   function applyVariant(variant) {
     if (!variant) return;
     if (variantSelect) variantSelect.value = variant.id;
+    const priceFormatted = formatMoney(variant.price);
     if (priceLabelEl) {
       if (priceFromEl) priceFromEl.remove();
-      priceLabelEl.textContent = formatMoney(variant.price);
+      priceLabelEl.textContent = priceFormatted;
     }
-    const addBtn = document.querySelector('.product-page__add');
-    if (addBtn) {
-      addBtn.disabled = !variant.available;
-      addBtn.textContent = variant.available ? 'Add to Cart' : 'Sold Out';
-    }
+    if (stickyAtcPrice) stickyAtcPrice.textContent = priceFormatted;
+    const available = variant.available;
+    [mainAtcBtn, stickyAtcBtn].forEach(btn => {
+      if (!btn) return;
+      btn.disabled = !available;
+      btn.textContent = available ? 'Add to Cart' : 'Sold Out';
+    });
     // Switch main image to variant image if available
     if (variant.featured_image && mainImage) {
-      mainImage.src = variant.featured_image.src.replace(/_\d+x\d+(\.[a-z]+)(\?|$)/, '$1$2');
+      const fullSrc = variant.featured_image.src.replace(/_\d+x\d+[^.]*(\.[a-z]+)/, '$1');
+      mainImage.style.opacity = '0';
+      mainImage.src = fullSrc;
+      mainImage.onload = () => { mainImage.style.opacity = '1'; };
     }
   }
 
@@ -226,6 +233,34 @@ if (window.productVariants && variantBtns.length > 0) {
   });
 
   applyVariant(findVariant());
+}
+
+/* ============================================
+   STICKY ADD TO CART
+   ============================================ */
+const stickyAtc = document.getElementById('sticky-atc');
+const mainAtcBtn = document.getElementById('main-atc-btn');
+const stickyAtcBtn = document.getElementById('sticky-atc-btn');
+const stickyAtcPrice = document.getElementById('sticky-atc-price');
+
+if (stickyAtc && mainAtcBtn) {
+  const observer = new IntersectionObserver(
+    ([entry]) => { stickyAtc.classList.toggle('visible', !entry.isIntersecting); },
+    { threshold: 0, rootMargin: '0px 0px -20px 0px' }
+  );
+  observer.observe(mainAtcBtn);
+
+  // Sync sticky price when variant changes
+  if (stickyAtcPrice && priceLabelEl) {
+    new MutationObserver(() => {
+      stickyAtcPrice.textContent = priceLabelEl.textContent;
+    }).observe(priceLabelEl, { childList: true, subtree: true, characterData: true });
+  }
+
+  // Sticky button triggers the main form submit
+  stickyAtcBtn?.addEventListener('click', () => {
+    mainAtcBtn.closest('form').dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+  });
 }
 
 /* ============================================
