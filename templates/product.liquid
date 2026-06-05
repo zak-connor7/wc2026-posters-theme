@@ -1,14 +1,24 @@
+<script>
+  window.productVariants = {{ product.variants | json }};
+</script>
+
 <div class="product-page">
 
   <!-- Gallery -->
   <div class="product-page__gallery">
-    <img
-      class="product-page__gallery-main"
-      src="{{ product.featured_image | img_url: '1200x' }}"
-      alt="{{ product.title | escape }}"
-      width="1200"
-      loading="eager"
-    >
+    {%- if product.featured_image -%}
+      <img
+        class="product-page__gallery-main"
+        src="{{ product.featured_image | img_url: '1200x' }}"
+        alt="{{ product.title | escape }}"
+        width="1200"
+        loading="eager"
+      >
+    {%- else -%}
+      <div class="product-page__gallery-placeholder">
+        <span>{{ product.title | escape }}</span>
+      </div>
+    {%- endif -%}
     {%- if product.images.size > 1 -%}
       <div class="product-page__gallery-thumbs">
         {%- for image in product.images -%}
@@ -33,18 +43,18 @@
 
     <h1 class="product-page__title">{{ product.title }}</h1>
 
-    <p class="product-page__price">
+    <p class="product-page__price" id="product-price">
       {%- if product.compare_at_price > product.price -%}
         <s style="color: var(--color-text-subtle);">{{ product.compare_at_price | money }}</s>&nbsp;
       {%- endif -%}
-      {{ product.price | money }}
+      <span id="price-label"><span id="price-from">From </span>{{ product.price | money }}</span>
     </p>
 
     <div class="product-page__divider"></div>
 
     <form data-add-to-cart-form action="/cart/add" method="post" enctype="multipart/form-data">
       <input type="hidden" name="form_type" value="product">
-      <input type="hidden" name="utf8" value="✓">
+      <input type="hidden" name="utf8" value="&#x2713;">
 
       {%- unless product.has_only_default_variant -%}
         <div class="product-page__variants">
@@ -96,24 +106,30 @@
 
     <div class="product-page__details">
       <div class="product-detail">
-        <span class="product-detail__label">Print details</span>
-        <span style="color: var(--color-text-subtle);">+</span>
+        <div class="product-detail__header">
+          <span class="product-detail__label">Print details</span>
+          <span class="product-detail__icon">+</span>
+        </div>
         <div class="product-detail__content">
-          Giclée fine art print on 200gsm matte archival paper. Printed to order. Colours may vary slightly between screens.
+          Archival matte paper, 250gsm. Acid-free, off-white stock. Printed to giclee standard. Colours are deep and accurate from edge to edge.
         </div>
       </div>
       <div class="product-detail">
-        <span class="product-detail__label">Sizes</span>
-        <span style="color: var(--color-text-subtle);">+</span>
+        <div class="product-detail__header">
+          <span class="product-detail__label">Sizes</span>
+          <span class="product-detail__icon">+</span>
+        </div>
         <div class="product-detail__content">
-          A4 (210&times;297mm) — A3 (297&times;420mm) — A2 (420&times;594mm). Unframed.
+          A4 (210 x 297mm) · A3 (297 x 420mm) · A2 (420 x 594mm). Framing available in A3 and A2 in Black, White, or Natural Wood. Unframed prints shipped rolled in a protective tube.
         </div>
       </div>
       <div class="product-detail">
-        <span class="product-detail__label">Shipping</span>
-        <span style="color: var(--color-text-subtle);">+</span>
+        <div class="product-detail__header">
+          <span class="product-detail__label">Shipping</span>
+          <span class="product-detail__icon">+</span>
+        </div>
         <div class="product-detail__content">
-          Shipped worldwide via Gelato. Estimated 3&ndash;7 business days. Free shipping on orders over €75.
+          Ships worldwide. Estimated 3-7 business days depending on location. Each print is produced to order.
         </div>
       </div>
     </div>

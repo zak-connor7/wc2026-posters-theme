@@ -1,11 +1,17 @@
 <div class="product-card" data-series="{{ product.metafields.custom.series | downcase }}">
   <a href="{{ product.url }}" class="product-card__image-wrap">
-    <img
-      src="{{ product.featured_image | img_url: '600x' }}"
-      alt="{{ product.title | escape }}"
-      width="600"
-      loading="lazy"
-    >
+    {%- if product.featured_image -%}
+      <img
+        src="{{ product.featured_image | img_url: '600x' }}"
+        alt="{{ product.title | escape }}"
+        width="600"
+        loading="lazy"
+      >
+    {%- else -%}
+      <div class="product-card__no-image">
+        <span>{{ product.title | escape }}</span>
+      </div>
+    {%- endif -%}
     {%- if product.metafields.custom.series != blank -%}
       <span class="product-card__badge">{{ product.metafields.custom.series }}</span>
     {%- endif -%}
@@ -17,6 +23,6 @@
         <p class="product-card__sub">{{ product.metafields.custom.country }}</p>
       {%- endif -%}
     </div>
-    <span class="product-card__price">{{ product.price | money }}</span>
+    <span class="product-card__price">From {{ product.price | money }}</span>
   </div>
 </div>

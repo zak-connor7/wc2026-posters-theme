@@ -49,17 +49,61 @@ thumbs.forEach(thumb => {
 });
 
 /* ============================================
-   PRODUCT VARIANT SELECTION
+   PRODUCT VARIANT SELECTION + PRICE UPDATE
    ============================================ */
 const variantBtns = document.querySelectorAll('.variant-btn');
+const variantSelect = document.querySelector('select[name="id"]');
+const priceLabelEl = document.getElementById('price-label');
+const priceFromEl = document.getElementById('price-from');
 
-variantBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const group = btn.closest('.variant-options');
-    group?.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
+function formatMoney(cents) {
+  const amount = cents / 100;
+  return '£' + (Number.isInteger(amount) ? amount.toString() : amount.toFixed(2));
+}
+
+if (window.productVariants && variantBtns.length > 0) {
+  const variants = window.productVariants;
+  const selectedOptions = {};
+
+  // Initialise from the first variant's options
+  (variants[0]?.options || []).forEach((val, i) => {
+    selectedOptions[i + 1] = val;
   });
-});
+
+  function findVariant() {
+    return variants.find(v =>
+      v.options.every((opt, i) => opt === selectedOptions[i + 1])
+    ) || null;
+  }
+
+  function applyVariant(variant) {
+    if (!variant) return;
+    if (variantSelect) variantSelect.value = variant.id;
+    if (priceLabelEl) {
+      // Once user has made a choice, drop the "From" label
+      if (priceFromEl) priceFromEl.remove();
+      priceLabelEl.textContent = formatMoney(variant.price);
+    }
+    const addBtn = document.querySelector('.product-page__add');
+    if (addBtn) {
+      addBtn.disabled = !variant.available;
+      addBtn.textContent = variant.available ? 'Add to Cart' : 'Sold Out';
+    }
+  }
+
+  variantBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.closest('.variant-options');
+      group?.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedOptions[parseInt(btn.dataset.option)] = btn.dataset.value;
+      applyVariant(findVariant());
+    });
+  });
+
+  // Sync select to first available variant on load
+  applyVariant(findVariant());
+}
 
 /* ============================================
    PRODUCT DETAILS ACCORDION
