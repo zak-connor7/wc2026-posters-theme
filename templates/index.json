@@ -12,6 +12,7 @@
     "hero": {
       "type": "hero",
       "settings": {
+        "bg_image": "shopify://shop_images/mockup-ronaldinho.png",
         "eyebrow": "World Cup 2026",
         "title": "32 Nations.\nLimited Edition.",
         "subtitle": "Fine art football posters. Printed on demand.",
@@ -42,5 +43,9 @@
       }
     }
   },
-  "order": ["hero", "featured_icon", "featured_nation"]
+  "order": [
+    "hero",
+    "featured_icon",
+    "featured_nation"
+  ]
 }
