@@ -6,13 +6,7 @@
   {%- endif -%}
 </div>
 
-<div class="collection-filters">
-  <button class="collection-filter active" data-series-filter="all">All</button>
-  <button class="collection-filter" data-series-filter="legend">Legend</button>
-  <button class="collection-filter" data-series-filter="icon">Icon</button>
-  <button class="collection-filter" data-series-filter="nation">Nation</button>
-  <button class="collection-filter" data-series-filter="kit">Kit</button>
-</div>
+{%- paginate collection.products by 24 -%}
 
 <div class="product-grid product-grid--4" style="margin: 1px 0;">
   {%- for product in collection.products -%}
@@ -27,3 +21,5 @@
     {{ paginate | default_pagination }}
   </div>
 {%- endif -%}
+
+{%- endpaginate -%}
