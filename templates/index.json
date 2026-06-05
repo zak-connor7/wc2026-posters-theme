@@ -26,7 +26,7 @@
       "type": "collection-grid",
       "settings": {
         "title": "Legend Series",
-        "collection": "",
+        "collection": "icon",
         "product_limit": 4,
         "view_all_label": "View all",
         "view_all_url": "/collections/legend"
