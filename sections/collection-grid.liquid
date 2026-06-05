@@ -1,0 +1,75 @@
+<div class="section container">
+  {%- if section.settings.title != blank -%}
+    <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: flex-end;">
+      <h2 class="heading-md">{{ section.settings.title }}</h2>
+      {%- if section.settings.view_all_label != blank -%}
+        <a href="{{ section.settings.view_all_url }}" class="heading-sm" style="color: var(--color-text-muted);">
+          {{ section.settings.view_all_label }} &rarr;
+        </a>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- assign collection = collections[section.settings.collection] -%}
+  {%- assign limit = section.settings.product_limit | default: 8 -%}
+
+  <div class="product-grid product-grid--4">
+    {%- for product in collection.products limit: limit -%}
+      {%- render 'product-card', product: product -%}
+    {%- else -%}
+      {%- for i in (1..limit) -%}
+        <div class="product-card">
+          <div class="product-card__image-wrap" style="background: var(--color-bg-tertiary);"></div>
+          <div class="product-card__info">
+            <div>
+              <p class="product-card__name">Poster {{ i }}</p>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "Number of products",
+      "min": 4,
+      "max": 16,
+      "step": 4,
+      "default": 8
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all label",
+      "default": "View all"
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "View all URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Grid"
+    }
+  ]
+}
+{% endschema %}

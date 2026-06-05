@@ -1,0 +1,35 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "eyebrow": "World Cup 2026",
+        "title": "32 Nations.\nLimited Edition.",
+        "subtitle": "Fine art football posters. Printed on demand.",
+        "cta_label": "Shop All Prints",
+        "cta_url": "/collections/all",
+        "cta_secondary_label": "View Series",
+        "cta_secondary_url": "/collections/legend"
+      }
+    },
+    "featured_legend": {
+      "type": "collection-grid",
+      "settings": {
+        "title": "Legend Series",
+        "product_limit": 4,
+        "view_all_label": "View all",
+        "view_all_url": "/collections/legend"
+      }
+    },
+    "featured_nation": {
+      "type": "collection-grid",
+      "settings": {
+        "title": "Nation Series",
+        "product_limit": 4,
+        "view_all_label": "View all",
+        "view_all_url": "/collections/nation"
+      }
+    }
+  },
+  "order": ["hero", "featured_legend", "featured_nation"]
+}

@@ -1,0 +1,29 @@
+<div class="collection-header container">
+  <p class="collection-header__meta">{{ collection.products_count }} prints</p>
+  <h1 class="heading-lg">{{ collection.title }}</h1>
+  {%- if collection.description != blank -%}
+    <p style="max-width: 480px; color: var(--color-text-muted); margin-top: 1rem;">{{ collection.description }}</p>
+  {%- endif -%}
+</div>
+
+<div class="collection-filters">
+  <button class="collection-filter active" data-series-filter="all">All</button>
+  <button class="collection-filter" data-series-filter="legend">Legend</button>
+  <button class="collection-filter" data-series-filter="icon">Icon</button>
+  <button class="collection-filter" data-series-filter="nation">Nation</button>
+  <button class="collection-filter" data-series-filter="kit">Kit</button>
+</div>
+
+<div class="product-grid product-grid--4" style="margin: 1px 0;">
+  {%- for product in collection.products -%}
+    {%- render 'product-card', product: product -%}
+  {%- else -%}
+    <p style="padding: 4rem var(--gutter); color: var(--color-text-muted);">No prints found.</p>
+  {%- endfor -%}
+</div>
+
+{%- if paginate.pages > 1 -%}
+  <div style="padding: 3rem var(--gutter); text-align: center;">
+    {{ paginate | default_pagination }}
+  </div>
+{%- endif -%}

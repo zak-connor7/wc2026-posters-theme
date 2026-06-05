@@ -1,0 +1,92 @@
+<div class="marquee">
+  <div class="marquee__track">
+    {%- for i in (1..8) -%}
+      <span class="marquee__item">Free worldwide shipping on orders over €75</span>
+      <span class="marquee__item">Giclée art print quality</span>
+      <span class="marquee__item">Printed on demand</span>
+      <span class="marquee__item">World Cup 2026</span>
+    {%- endfor -%}
+  </div>
+</div>
+
+<footer class="site-footer" role="contentinfo">
+  <div>
+    <div class="footer-logo">{{ shop.name }}</div>
+    <p class="footer-tagline">Limited edition football art prints.<br>32 nations. 4 series.</p>
+  </div>
+
+  <div>
+    <p class="footer-col__title">Shop</p>
+    <ul class="footer-links">
+      <li><a href="/collections/all">All Prints</a></li>
+      <li><a href="/collections/legend">Legend Series</a></li>
+      <li><a href="/collections/icon">Icon Series</a></li>
+      <li><a href="/collections/nation">Nation Series</a></li>
+      <li><a href="/collections/kit">Kit Series</a></li>
+    </ul>
+  </div>
+
+  <div>
+    <p class="footer-col__title">Info</p>
+    <ul class="footer-links">
+      <li><a href="/pages/about">About</a></li>
+      <li><a href="/pages/shipping">Shipping & Returns</a></li>
+      <li><a href="/pages/faq">FAQ</a></li>
+      <li><a href="/pages/contact">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<div class="footer-bottom">
+  <p>&copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. All rights reserved.</p>
+  <p>Designed for print lovers.</p>
+</div>
+
+<!-- Cart Drawer -->
+<div class="cart-drawer__overlay"></div>
+<div class="cart-drawer" aria-label="Shopping cart">
+  <div class="cart-drawer__header">
+    <span class="cart-drawer__title">Your Cart</span>
+    <button class="cart-drawer__close" aria-label="Close cart">&times;</button>
+  </div>
+
+  <div class="cart-drawer__items">
+    {%- if cart.item_count == 0 -%}
+      <p style="color: var(--color-text-muted); font-size: 0.875rem; padding: 2rem 0;">Your cart is empty.</p>
+    {%- else -%}
+      {%- for item in cart.items -%}
+        <div class="cart-item">
+          <img
+            class="cart-item__image"
+            src="{{ item.image | img_url: '160x' }}"
+            alt="{{ item.title | escape }}"
+            width="72"
+            loading="lazy"
+          >
+          <div class="cart-item__info">
+            <div>
+              <p class="cart-item__name">{{ item.product.title }}</p>
+              <p class="cart-item__variant">{{ item.variant.title }}</p>
+            </div>
+            <div class="cart-item__bottom">
+              <div class="cart-item__qty">
+                <button data-cart-qty-change="-1" data-key="{{ item.key }}" aria-label="Decrease quantity">-</button>
+                <span>{{ item.quantity }}</span>
+                <button data-cart-qty-change="1" data-key="{{ item.key }}" aria-label="Increase quantity">+</button>
+              </div>
+              <span class="cart-item__price">{{ item.line_price | money }}</span>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+
+  <div class="cart-drawer__footer">
+    <div class="cart-total">
+      <span class="cart-total__label">Total</span>
+      <span class="cart-total__amount">{{ cart.total_price | money }}</span>
+    </div>
+    <a href="/checkout" class="cart-checkout">Checkout</a>
+  </div>
+</div>

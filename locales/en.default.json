@@ -1,0 +1,19 @@
+{
+  "general": {
+    "shop_name": "WC2026 Posters"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to Cart",
+      "sold_out": "Sold Out",
+      "unavailable": "Unavailable"
+    }
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty.",
+    "checkout": "Checkout",
+    "continue_shopping": "Continue Shopping",
+    "subtotal": "Subtotal"
+  }
+}
