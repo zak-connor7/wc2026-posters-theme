@@ -1,8 +1,18 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "hero",
       "settings": {
+        "bg_image": "shopify://shop_images/mockup-ronaldinho.png",
         "eyebrow": "World Cup 2026",
         "title": "32 Nations.\nLimited Edition.",
         "subtitle": "Fine art football posters. Printed on demand.",
@@ -16,6 +26,7 @@
       "type": "collection-grid",
       "settings": {
         "title": "Legend Series",
+        "collection": "",
         "product_limit": 4,
         "view_all_label": "View all",
         "view_all_url": "/collections/legend"
@@ -25,11 +36,16 @@
       "type": "collection-grid",
       "settings": {
         "title": "Nation Series",
+        "collection": "",
         "product_limit": 4,
         "view_all_label": "View all",
         "view_all_url": "/collections/nation"
       }
     }
   },
-  "order": ["hero", "featured_legend", "featured_nation"]
+  "order": [
+    "hero",
+    "featured_legend",
+    "featured_nation"
+  ]
 }
